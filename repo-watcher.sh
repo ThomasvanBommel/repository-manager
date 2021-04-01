@@ -3,7 +3,7 @@
  # Created: Thursday April 1st 2021
  # Author: Thomas vanBommel
  # 
- # Last Modified: Thursday April 1st 2021 5:48pm
+ # Last Modified: Thursday April 1st 2021 6:49pm
  # Modified By: Thomas vanBommel
  # 
  # CHANGELOG:
@@ -30,6 +30,7 @@ while true; do
         FIRST_RUN=0
 
         echo -e "\n$(date): Pulling repository..."
+        git -C "$DIR" reset --hard HEAD
         git -C "$DIR" pull
 
         echo -e "\n$(date): Installing dependencies..."
