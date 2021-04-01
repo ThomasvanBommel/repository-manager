@@ -3,7 +3,7 @@
  * Created: Thursday April 1st 2021
  * Author: Thomas vanBommel
  * 
- * Last Modified: Thursday April 1st 2021 5:36pm
+ * Last Modified: Thursday April 1st 2021 6:12pm
  * Modified By: Thomas vanBommel
  * 
  * CHANGELOG:
@@ -28,8 +28,6 @@ app.use((req, res, next) => {
     res.set("X-Powered-By", "Sagittarius A*");
     next();
 });
-
-exec(`touch ${__dirname}/../repository/update.touch`);
 
 // Respond to all endpoints
 app.all("*", (req, res) => {
