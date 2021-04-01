@@ -3,21 +3,18 @@
  * Created: Thursday April 1st 2021
  * Author: Thomas vanBommel
  * 
- * Last Modified: Thursday April 1st 2021 3:27pm
+ * Last Modified: Thursday April 1st 2021 5:36pm
  * Modified By: Thomas vanBommel
  * 
  * CHANGELOG:
  */
 
 import express from "express";
-import { execSync } from "child_process";
+import { exec } from "child_process";
 import { headerInspection } from "./github";
 
 const app = express();
-const repository = {
-    id: 333275051,
-    branch: "master"
-}
+const repositoryId = 333275051;
 
 // Parsing middleware
 app.use(express.json());
@@ -32,6 +29,8 @@ app.use((req, res, next) => {
     next();
 });
 
+exec(`touch ${__dirname}/../repository/update.touch`);
+
 // Respond to all endpoints
 app.all("*", (req, res) => {
     // Ignore favicon requests
@@ -42,11 +41,14 @@ app.all("*", (req, res) => {
     if( github?.isVerified &&
         github.event === "check_suite" &&
         github.targetType === "repository" &&
-        github.targetID === repository.id){
-            console.log(
-                "\n==============================\n",
-                new Date().toDateString() + "\n",
-                execSync(`git -C ${__dirname}/../repository pull`).toString()
-            );
+        github.targetID === repositoryId){
+            // Update repository touch file
+            exec(`touch ${__dirname}/../repository/update.touch`);
+
+            // Send thank you
+            res.send("👍 Thank you!");
+    }else{
+        // Tell them we're not interested
+        res.send("⛔ No thanks!");
     }
 });
