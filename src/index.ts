@@ -3,7 +3,7 @@
  * Created: Thursday April 1st 2021
  * Author: Thomas vanBommel
  * 
- * Last Modified: Thursday April 1st 2021 6:12pm
+ * Last Modified: Thursday April 1st 2021 6:15pm
  * Modified By: Thomas vanBommel
  * 
  * CHANGELOG:
@@ -50,3 +50,5 @@ app.all("*", (req, res) => {
         res.send("⛔ No thanks!");
     }
 });
+
+app.listen(8080, () => console.log("Listening..."));
