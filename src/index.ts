@@ -3,7 +3,7 @@
  * Created: Thursday April 1st 2021
  * Author: Thomas vanBommel
  * 
- * Last Modified: Thursday April 1st 2021 6:15pm
+ * Last Modified: Thursday April 1st 2021 6:42pm
  * Modified By: Thomas vanBommel
  * 
  * CHANGELOG:
@@ -35,8 +35,14 @@ app.all("*", (req, res) => {
     if(req.url === "/favicon.ico") return;
     
     const github = req.github;
+    const body = req.body;
+    let conclusion: string = "failure";
 
-    if( github?.isVerified &&
+    if("check_suite" in body && "conclusion" in body.check_suite)
+        conclusion = body.check_suite.conclusion;
+
+    if( conclusion === "success" &&
+        github?.isVerified &&
         github.event === "check_suite" &&
         github.targetType === "repository" &&
         github.targetID === repositoryId){
