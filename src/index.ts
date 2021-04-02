@@ -3,7 +3,7 @@
  * Created: Thursday April 1st 2021
  * Author: Thomas vanBommel
  * 
- * Last Modified: Thursday April 1st 2021 6:42pm
+ * Last Modified: Friday April 2nd 2021 12:04pm
  * Modified By: Thomas vanBommel
  * 
  * CHANGELOG:
@@ -14,7 +14,10 @@ import { exec } from "child_process";
 import { headerInspection } from "./github";
 
 const app = express();
-const repositoryId = 333275051;
+const repository = {
+    id: 333275051,
+    branch: "master"
+};
 
 // Parsing middleware
 app.use(express.json());
@@ -37,15 +40,22 @@ app.all("*", (req, res) => {
     const github = req.github;
     const body = req.body;
     let conclusion: string = "failure";
+    let branch: string = "not-master";
 
-    if("check_suite" in body && "conclusion" in body.check_suite)
-        conclusion = body.check_suite.conclusion;
+    if("check_suite" in body){
+        if("conclusion" in body.check_suite)
+            conclusion = body.check_suite.conclusion;
 
-    if( conclusion === "success" &&
+        if("head_branch" in body.check_suite)
+            branch = body.check_suite.head_branch;
+    }
+
+    if( branch === repository.branch &&
+        conclusion === "success" &&
         github?.isVerified &&
         github.event === "check_suite" &&
         github.targetType === "repository" &&
-        github.targetID === repositoryId){
+        github.targetID === repository.id){
             // Update repository touch file
             exec(`touch ${__dirname}/../repository/update.touch`);
 
