@@ -3,7 +3,7 @@
  # Created: Thursday April 1st 2021
  # Author: Thomas vanBommel
  # 
- # Last Modified: Thursday April 1st 2021 6:49pm
+ # Last Modified: Friday April 2nd 2021 12:19pm
  # Modified By: Thomas vanBommel
  # 
  # CHANGELOG:
@@ -36,7 +36,7 @@ while true; do
         echo -e "\n$(date): Installing dependencies..."
         npm i --prefix "$DIR"
 
-        PID=$(ps -x | grep "node server/build/src/index.js" | head -n 1 |  awk '{ print $1 }')
+        PID=$(ps -x | grep "node build/server/src/index.js" | head -n 1 |  awk '{ print $1 }')
         echo -e "\n$(date): Killing previous application [$PID]..."
         kill $PID
 
