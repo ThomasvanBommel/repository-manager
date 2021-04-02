@@ -3,7 +3,7 @@
  # Created: Thursday April 1st 2021
  # Author: Thomas vanBommel
  # 
- # Last Modified: Friday April 2nd 2021 12:19pm
+ # Last Modified: Friday April 2nd 2021 3:44pm
  # Modified By: Thomas vanBommel
  # 
  # CHANGELOG:
@@ -41,7 +41,7 @@ while true; do
         kill $PID
 
         echo -e "\n$(date): Starting application..."
-        npm start --prefix "$DIR" &
+        npm start --prefix "$DIR" & disown
 
         PREV="$CURR"
     fi
